@@ -3,7 +3,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import res.Constants;
-import res.Elements;
+import res.MainPage;
 import wrappers.CommonWrapper;
 import wrappers.UIWrapper;
 
@@ -18,41 +18,41 @@ public class UITests {
 
     @Test
     public void checkErrorsOfAllMandatoryFields() {
-        browser.clickOnByXpath(Elements.btnCheckout);
-        browser.checkDisplayByXpath(Elements.txFirstNameError);
-        browser.checkDisplayByXpath(Elements.txLastNameError);
-        browser.checkDisplayByXpath(Elements.txCCName);
-        browser.checkDisplayByXpath(Elements.txCCNumber);
-        browser.checkDisplayByXpath(Elements.txCCExpiration);
-        browser.checkDisplayByXpath(Elements.txCCCVV);
-        browser.checkSelectedById(Elements.rbCreditCard);
+        browser.clickOn(MainPage.btnCheckout);
+        browser.checkDisplay(MainPage.txFirstNameError);
+        browser.checkDisplay(MainPage.txLastNameError);
+        browser.checkDisplay(MainPage.txCCName);
+        browser.checkDisplay(MainPage.txCCNumber);
+        browser.checkDisplay(MainPage.txCCExpiration);
+        browser.checkDisplay(MainPage.txCCCVV);
+        browser.checkSelected(MainPage.rbCreditCard);
     }
 
     @Test
     public void checkLoadingOfCart() {
-        browser.checkDisplayById(Elements.elLoading);
-        browser.waitVisibilityByid(Elements.txTotal);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txYourCart)
+        browser.checkDisplay(MainPage.elLoading);
+        browser.waitVisibility(MainPage.txTotal);
+        Assert.assertEquals(browser.getText(MainPage.txYourCart)
                 , Constants.yourCart);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txAmountOfPurchases)
+        Assert.assertEquals(browser.getText(MainPage.txAmountOfPurchases)
                 , Constants.amountOfPurchases);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txNameOfFirstPurchase)
+        Assert.assertEquals(browser.getText(MainPage.txNameOfFirstPurchase)
                 , Constants.nameOfFirstPurchase);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txDescriptionOfFirstElement)
+        Assert.assertEquals(browser.getText(MainPage.txDescriptionOfFirstElement)
                 , Constants.descriptionOfFirstPurchase);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txPriceOfFirstPurchase)
+        Assert.assertEquals(browser.getText(MainPage.txPriceOfFirstPurchase)
                 , Constants.priceOfFirstPurchase);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txNameOfSecondPurchase)
+        Assert.assertEquals(browser.getText(MainPage.txNameOfSecondPurchase)
                 , Constants.nameOfSecondPurchase);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txDescriptionOfSecondElement)
+        Assert.assertEquals(browser.getText(MainPage.txDescriptionOfSecondElement)
                 , Constants.descriptionOfSecondElement);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txPriceOfSecondPurchase)
+        Assert.assertEquals(browser.getText(MainPage.txPriceOfSecondPurchase)
                 , Constants.priceOfSecondPurchase);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txTotalUSD)
+        Assert.assertEquals(browser.getText(MainPage.txTotalUSD)
                 , Constants.totalUSD);
-        Assert.assertEquals(browser.getTextByXpath(Elements.txCurrency)
+        Assert.assertEquals(browser.getText(MainPage.txCurrency)
                 , Constants.currency);
-        Assert.assertEquals(browser.getTextById(Elements.txTotal)
+        Assert.assertEquals(browser.getText(MainPage.txTotal)
                 , Constants.total);
     }
 
@@ -62,30 +62,30 @@ public class UITests {
     @RepeatedTest(3)
     public void checkPromoCodeChangesTotal() {
         int percent = CommonWrapper.getRandomIntInRange(0, 99);
-        browser.checkDisplayById(Elements.elLoading);
-        browser.waitVisibilityByid(Elements.txTotal);
-        String exp = CommonWrapper.getTotalWithDiscount(browser.getDoubleById(Elements.txTotal)
+        browser.checkDisplay(MainPage.elLoading);
+        browser.waitVisibility(MainPage.txTotal);
+        String exp = CommonWrapper.getTotalWithDiscount(browser.getDouble(MainPage.txTotal)
                 , percent);
-        browser.sendKeysById(Elements.inPromocode
+        browser.sendKeys(MainPage.inPromocode
                 , CommonWrapper.getStringWithLength(percent));
-        browser.clickOnByXpath(Elements.btnRedeem);
-        browser.waitInvisibilityByid(Elements.inPromocode);
-        String act = browser.getTextById(Elements.txTotal);
+        browser.clickOn(MainPage.btnRedeem);
+        browser.waitInvisibility(MainPage.inPromocode);
+        String act = browser.getText(MainPage.txTotal);
         Assert.assertEquals(exp, act);
     }
 
     //Reproduce of bug "Promo code can break total (long fractional part)" must be failed
     @Test
     public void proofBugOfChangingTotalByPromoCodeOn14Percent() {
-        browser.checkDisplayById(Elements.elLoading);
-        browser.waitVisibilityByid(Elements.txTotal);
-        String exp = CommonWrapper.getTotalWithDiscount(browser.getDoubleById(Elements.txTotal)
+        browser.checkDisplay(MainPage.elLoading);
+        browser.waitVisibility(MainPage.txTotal);
+        String exp = CommonWrapper.getTotalWithDiscount(browser.getDouble(MainPage.txTotal)
                 , 14);
-        browser.sendKeysById(Elements.inPromocode
+        browser.sendKeys(MainPage.inPromocode
                 , CommonWrapper.getStringWithLength(14));
-        browser.clickOnByXpath(Elements.btnRedeem);
-        browser.waitInvisibilityByid(Elements.inPromocode);
-        String act = browser.getTextById(Elements.txTotal);
+        browser.clickOn(MainPage.btnRedeem);
+        browser.waitInvisibility(MainPage.inPromocode);
+        String act = browser.getText(MainPage.txTotal);
         Assert.assertEquals(exp, act);
     }
 
@@ -94,36 +94,36 @@ public class UITests {
     @Test
     public void proofBugOfTotalLessThan0() {
         int percent = CommonWrapper.getRandomIntInRange(101, 200);
-        browser.checkDisplayById(Elements.elLoading);
-        browser.waitVisibilityByid(Elements.txTotal);
-        browser.sendKeysById(Elements.inPromocode
+        browser.checkDisplay(MainPage.elLoading);
+        browser.waitVisibility(MainPage.txTotal);
+        browser.sendKeys(MainPage.inPromocode
                 , CommonWrapper.getStringWithLength(percent));
-        browser.clickOnByXpath(Elements.btnRedeem);
-        browser.waitInvisibilityByid(Elements.inPromocode);
-        String act = browser.getTextById(Elements.txTotal);
+        browser.clickOn(MainPage.btnRedeem);
+        browser.waitInvisibility(MainPage.inPromocode);
+        String act = browser.getText(MainPage.txTotal);
         Assert.assertEquals(0, act);
     }
 
     @Test
     public void checkSuccessOfFormSubmission() {
-        browser.sendKeysById(Elements.inFirstName
+        browser.sendKeys(MainPage.inFirstName
                 , CommonWrapper.getRandomStringOfLettersAndDigits(1));
-        browser.sendKeysById(Elements.inLastName
+        browser.sendKeys(MainPage.inLastName
                 , CommonWrapper.getRandomStringOfLettersAndDigits(1));
-        browser.sendKeysById(Elements.inCCName
+        browser.sendKeys(MainPage.inCCName
                 , CommonWrapper.getRandomStringOfLettersAndDigits(1));
-        browser.sendKeysById(Elements.inCCNumber
+        browser.sendKeys(MainPage.inCCNumber
                 , CommonWrapper.getRandomStringOfLettersAndDigits(16));
-        browser.sendKeysById(Elements.inCCExpiration
+        browser.sendKeys(MainPage.inCCExpiration
                 , CommonWrapper.getRandomStringOfLettersAndDigits(1));
-        browser.sendKeysById(Elements.inCCCVV
+        browser.sendKeys(MainPage.inCCCVV
                 , CommonWrapper.getRandomStringOfLettersAndDigits(1));
-        browser.checkSelectedById(Elements.rbCreditCard);
-        browser.clickOnByXpath(Elements.btnCheckout);
-        browser.waitVisibilityByid(Elements.txSuccess);
-        browser.checkDisplayById(Elements.txSuccess);
+        browser.checkSelected(MainPage.rbCreditCard);
+        browser.clickOn(MainPage.btnCheckout);
+        browser.waitVisibility(MainPage.txSuccess);
+        browser.checkDisplay(MainPage.txSuccess);
         Assert.assertEquals(Constants.success
-                , browser.getTextById(Elements.txSuccess));
+                , browser.getText(MainPage.txSuccess));
 
     }
 

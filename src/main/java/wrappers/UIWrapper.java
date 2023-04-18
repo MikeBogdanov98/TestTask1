@@ -32,40 +32,35 @@ public class UIWrapper {
     public void clickOnByXpath(String xpath) {
         driver.findElement(By.xpath(xpath)).click();
     }
-
-    public void sendKeysById(String id, String text) {
-        driver.findElement(By.id(id)).sendKeys(text);
+    public void clickOn(By element) {
+        driver.findElement(element).click();
     }
 
-    public void checkDisplayById(String id) {
-        driver.findElement(By.id(id)).isDisplayed();
+    public void sendKeys(By element, String text) {
+        driver.findElement(element).sendKeys(text);
     }
 
-    public void checkDisplayByXpath(String xpath) {
-        driver.findElement(By.xpath(xpath)).isDisplayed();
+    public void checkDisplay(By element) {
+        driver.findElement(element).isDisplayed();
     }
 
-    public void checkSelectedById(String id) {
-        driver.findElement(By.id(id)).isSelected();
+    public void checkSelected(By element) {
+        driver.findElement(element).isSelected();
     }
 
-    public void waitVisibilityByid(String id) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(id)));
+    public void waitVisibility(By element) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 
-    public void waitInvisibilityByid(String id) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id(id)));
+    public void waitInvisibility(By element) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
     }
 
-    public String getTextByXpath(String xpath) {
-        return driver.findElement(By.xpath(xpath)).getText();
+    public String getText(By element) {
+        return driver.findElement(element).getText();
     }
 
-    public String getTextById(String id) {
-        return driver.findElement(By.id(id)).getText();
-    }
-
-    public double getDoubleById(String id) {
-        return Double.parseDouble(driver.findElement(By.id(id)).getText());
+    public double getDouble(By element) {
+        return Double.parseDouble(driver.findElement(element).getText());
     }
 }
